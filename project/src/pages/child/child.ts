@@ -4,6 +4,7 @@ import { storage , initializeApp ,} from 'firebase'
 import { FIREBASE_CONFIG } from '../../app/firebase.credentials';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { DatePipe } from '@angular/common'
 //import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 /**
  * Generated class for the ChildPage page.
@@ -18,19 +19,28 @@ import { AngularFireAuth } from 'angularfire2/auth';
   templateUrl: 'child.html',
 })
 export class ChildPage {
+ 
+
+  
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams ,
     private camera : Camera ,
     private toast : ToastController ,
-    private fire : AngularFireAuth
+    private fire : AngularFireAuth ,
+  //  private dateNow : Date ,
+
    // private imagePicker: ImagePicker
   ) 
   {
       //initializeApp(FIREBASE_CONFIG)
   }
   async takePhoto(){
+     var today = Date.toString() ;
+     console.log(today);
+  /* var dateNowMilliseconds = this.dateNow.getTime();
+    console.log(dateNowMilliseconds); */
     const currentUserId = this.fire.auth.currentUser.uid;
 
     console.log(currentUserId);
@@ -48,10 +58,8 @@ export class ChildPage {
       }
       const result = await this.camera.getPicture(options);
       const image = `data:image/jpeg ;base64, ${result}`;
-      const pictures = storage().ref('pictures' + currentUserId);
-       
-      //TODO Loop for images
-      //Fixme 
+      const pictures = storage().ref(`pictures/ ${currentUserId} /` + "image1");
+      console.log("folder maker")
       
       pictures.putString(image , 'data_url');
       console.log("End Function")
