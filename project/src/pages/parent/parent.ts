@@ -5,7 +5,7 @@ import { User } from '../../models/users/user.module';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from '@firebase/util';
+import { Observable } from 'rxjs/Observable';
 import { Children } from '../../models/users/children.module';
 import { userProfileService } from '../../services/serviceList/user.profile.service';
 /**
@@ -32,8 +32,8 @@ export class ParentPage {
     medicalEXDesc : '' 
   }
 
-  listChildren$ : Observable<Children[]>
-
+  childDB : Observable<Children[]>
+  
   constructor(public navCtrl: NavController, 
     public navParams: NavParams , 
    /*  private userProfileService : userProfileService ,  */
@@ -49,6 +49,20 @@ export class ParentPage {
       
   this.afAuth.authState.subscribe(data => {
     if(data.email && data.uid){
+     console.log("user registered");
+     const childDB = this.db.database.ref('parents/' + data.uid+"/childrens").on('child_added',function(snapshot){
+       console.log(snapshot.val().name)
+     }) ;
+      
+     //console.log("step 1 " +  childDB.);
+     /* childDB.snapshotChanges()// key and value
+     .map(
+       changes => {
+         return changes.map( c => ({
+           key : c.payload.key , ...c.payload.val()
+         }));
+       }) ; */
+      
 
     /*  this.listChildren$ =  this.db.list<Children>('') ;  */
     

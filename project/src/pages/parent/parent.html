@@ -66,16 +66,16 @@
                       <button ion-button (click)="saveData(user)" round full color="gray1">حفظ البيانات </button>
                       <button ion-button  round full color="pink1" navPush="ChildPage">أضافة ابن </button>
                   </ion-item>
-                  <ion-list>
+                  <ion-list >
             
                         <ion-list-header color="36393B" style="font-weight: bold ; font-size: 20px">الابناء </ion-list-header>
                     
-                        <ion-item detail-push navPush="ChildPage">
+                        <ion-item detail-push navPush="ChildPage" *ngFor = "let child of childDB">
                           <ion-avatar item-start>
                             <img src="../assets/imgs/family.png">
                           </ion-avatar>
-                          <h2>يوسف</h2>
-                          <ion-note item-end>12 سنه</ion-note>
+                          <h2>{{child.name}}</h2>
+                          <ion-note item-end>{{child.age}}</ion-note>
                         </ion-item>
             
                       </ion-list>
