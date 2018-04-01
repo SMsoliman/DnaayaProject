@@ -6,9 +6,13 @@ import { User } from "../../models/users/user.module";
 
 @Injectable()
 export class userProfileService {
-private userProfileRef = this.db.list<User>('user-profile') ;
+    uid : string ; 
+/*private userProfileRef = this.db.list<User>('user-profile') ;
 
-    constructor(private db: AngularFireDatabase){
+
+/*private userProfileRef2 = this.db.database.ref('/parents/' + this.uid) ;*/
+private userProfileRef = this.db.list<User>('/parents/' + this.uid) ;
+constructor(private db: AngularFireDatabase){
 
     }
     getShoppingList(){
@@ -17,12 +21,12 @@ private userProfileRef = this.db.list<User>('user-profile') ;
     addItem(user : User){
         return this.userProfileRef.push(user);
     }
-    editItem(user : User){
+     editItem(user : User){
         return this.userProfileRef.update(user.key , user) ; 
     }
 
     removeItem(user : User){
         return this.userProfileRef.remove(user.key) ; 
-    }
+    } 
 
 }

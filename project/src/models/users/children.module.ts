@@ -1,10 +1,12 @@
 export interface Children {
     key? : string;
     name : string ; 
-    birthdate : string ; 
-    allergy : boolean ; 
+    age : number ; 
+    gender : string;
+    allergy : string ; 
     allergyInformation : string; 
-    Illness : boolean;
+    Illness : string;
     IllnessInformation : string;
+    note : string; 
     image : string;
 }

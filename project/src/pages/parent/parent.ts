@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { User } from '../../models/users/user.module';
+//import { userProfileService } from '../../services/serviceList/user.profile.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from '@firebase/util';
+import { Children } from '../../models/users/children.module';
 import { userProfileService } from '../../services/serviceList/user.profile.service';
-
 /**
  * Generated class for the ParentPage page.
  *
@@ -19,23 +24,62 @@ export class ParentPage {
   user : User = {
     name : '' ,
     email : '' , 
+    age : undefined ,
     phone : '' , 
-    address : '' , 
-    medicalEX : '' , 
-    password : '' ,
+    address : '' ,
+    gender : '' ,
+    medicalEX : 'true' , 
+    medicalEXDesc : '' 
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams , private userProfileService : userProfileService) {
+  listChildren$ : Observable<Children[]>
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams , 
+   /*  private userProfileService : userProfileService ,  */
+    private toast : ToastController , 
+    private afAuth : AngularFireAuth , 
+    private db : AngularFireDatabase , 
+    private profile  : userProfileService 
+  ) 
+  {
   }
 
   ionViewDidLoad() {
+      
+  this.afAuth.authState.subscribe(data => {
+    if(data.email && data.uid){
+
+    /*  this.listChildren$ =  this.db.list<Children>('') ;  */
+    
+    }
+    else {
+     /*  this.toast.create({
+        message : `could not find the authentication Details ` ,
+        duration : 3000
+      }).present(); */
+      this.navCtrl.push("LoginPage");
+    }
+  });
     console.log('ionViewDidLoad ParentPage');
   }
 
-  saveData(user : User){
-this.userProfileService.addItem(user).then(ref => {
-  console.log(ref.key + "user added !!")
+  saveData(parent){
+this.afAuth.authState.subscribe(data => {
+console.log(this.profile.uid);
+   if(data.email && data.uid){
+    const result = this.db.database.ref('parents/' + data.uid).set(this.user) ;
+    console.log(this.user.key)
+    
+    return result ;
+  } 
 })
+
+
+
+    /* this.userProfileService.addItem(user).then(ref => {
+  console.log(ref.key + "user added !!")
+}) */
   }
 
 }

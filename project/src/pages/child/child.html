@@ -13,11 +13,11 @@
         <ion-content class="page-home" dir="rtl">
                 <ion-item>
                     <ion-label color="darkBrown">الاسم : </ion-label>
-                    <ion-input  name="description"  placeholder="...." ></ion-input>
+                    <ion-input  name="description"  placeholder="...." [(ngModel)]="children.name" ></ion-input>
                   </ion-item>
                       <ion-item>
                             <ion-label color="darkBrown">العمر :  </ion-label>
-                            <ion-input type="number" >  </ion-input>
+                            <ion-input type="number" [(ngModel)]="children.age">  </ion-input>
                         </ion-item>
                       <ion-grid>
                           <ion-row>
@@ -25,10 +25,10 @@
                                     <ion-label color="darkBrown">النوع :  </ion-label>
                               </ion-col>
                               <ion-col>
-                                  <div radio-group [(ngModel)]="gender">
+                                  <div radio-group [(ngModel)]="children.gender">
                                       <ion-item>
                                             <ion-label>ذكر</ion-label>
-                                            <ion-radio value="male"></ion-radio>
+                                            <ion-radio value="male" ></ion-radio>
                                       </ion-item>
                                       <ion-item>
                                             <ion-label>انثى</ion-label>                              
@@ -40,29 +40,29 @@
                       </ion-grid>
                       <ion-item>
                             <ion-label color="darkBrown">هل الطفل لديه حساسيه معينه ؟ :  </ion-label>
-                            <ion-toggle value="foo"  [(ngModel)]="allergyToggle" ng-init="allergyToggle = true" color="gray1"></ion-toggle>
+                            <ion-toggle value="foo"  [(ngModel)]="children.allergy" ng-init="children.allergy = false" color="gray1"></ion-toggle>
                       </ion-item>
-                      <ion-item *ngIf="allergyToggle">
+                      <ion-item *ngIf="children.allergy">
                             <ion-label color="darkBrown">معلومات عن حساسيه الطفل  :  </ion-label>
-                            <ion-textarea> type="text"></ion-textarea>
+                            <ion-textarea type="text"  [(ngModel)]="children.allergyInformation"></ion-textarea>
                       </ion-item>
                       <ion-item>
                           <ion-label color="darkBrown">هل الطفل لديه مرض مزمن ؟ :  </ion-label>
-                          <ion-toggle value="foo" checked="false" color="gray1" [(ngModel)]="illinceToggle" ng-init="illinceToggle = true"></ion-toggle>
+                          <ion-toggle value="foo" checked="false" color="gray1" [(ngModel)]="children.Illness" ng-init="children.Illness = false"></ion-toggle>
                     </ion-item>
-                    <ion-item *ngIf="illinceToggle">
+                    <ion-item *ngIf="children.Illness">
                           <ion-label color="darkBrown">معلومات المرض  :  </ion-label>
-                          <ion-textarea> type="text"></ion-textarea>
+                          <ion-textarea type="text" [(ngModel)]="children.IllnessInformation"></ion-textarea>
                     </ion-item>
                     <ion-item>
                         <ion-label color="darkBrown">معلومات اخرى  :  </ion-label>
-                        <ion-textarea> type="text" placeholder="كرتون المفضل ، الهوايه المفضله " ></ion-textarea>
+                        <ion-textarea type="text" placeholder="كرتون المفضل ، الهوايه المفضله " [(ngModel)]="children.note"></ion-textarea>
                   </ion-item>
                   <button ion-button (click)="takePhoto()" round full color="red">أضافة صورة </button>
                   <!-- <button ion-button (click)="takeImage()" round full color="red">أضافة صورة </button> -->
             
                   <ion-item >
-                      <button ion-button (click)="saveData(user)" round full color="gray1">حفظ البيانات </button>
+                      <button ion-button (click)="addChild(child)" round full color="gray1">اضافة ابن </button>
                   
                   </ion-item>
             </ion-content>

@@ -5,13 +5,8 @@ import { FIREBASE_CONFIG } from '../../app/firebase.credentials';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { DatePipe } from '@angular/common'
-//import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
-/**
- * Generated class for the ChildPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Children } from '../../models/users/children.module';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
 @Component({
@@ -19,6 +14,18 @@ import { DatePipe } from '@angular/common'
   templateUrl: 'child.html',
 })
 export class ChildPage {
+  
+  children : Children = {
+    name : '' , 
+    age : undefined , 
+    gender : '' , 
+    allergy : 'true' , 
+    allergyInformation : '' , 
+    Illness : 'true' , 
+    IllnessInformation : '' , 
+    note : '' ,  
+    image : ''
+  }
  
 
   
@@ -28,7 +35,8 @@ export class ChildPage {
     public navParams: NavParams ,
     private camera : Camera ,
     private toast : ToastController ,
-    private fire : AngularFireAuth ,
+    private afAuth : AngularFireAuth ,
+    private db : AngularFireDatabase
   //  private dateNow : Date ,
 
    // private imagePicker: ImagePicker
@@ -41,7 +49,7 @@ export class ChildPage {
      console.log(today);
   /* var dateNowMilliseconds = this.dateNow.getTime();
     console.log(dateNowMilliseconds); */
-    const currentUserId = this.fire.auth.currentUser.uid;
+    const currentUserId = this.afAuth.auth.currentUser.uid;
 
     console.log(currentUserId);
     //const pictures = storage().ref('pictures');
@@ -95,10 +103,21 @@ export class ChildPage {
     
     if(this.allergyToggle = true){
       this.hideME = false ; 
+
     }
     else {
       this.hideME = false ; 
     }
+  }
+
+  addChild(children){
+    this.afAuth.authState.subscribe(data => {
+      if(data.email && data.uid){
+        const result = this.db.database.ref('parents/' + data.uid + '/childrens').push(this.children) ;
+        return result ;
+      }
+    })
+
   }
 
 }
